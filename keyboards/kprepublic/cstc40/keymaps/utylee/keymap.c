@@ -102,7 +102,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_planck_mit(KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC, CTL_T(KC_ESC), LALT_T(KC_A), LSFT_T(KC_S), LGUI_T(KC_D), LCTL_T(KC_F), KC_G, KC_H, LCTL_T(KC_J), RGUI_T(KC_K), RSFT_T(KC_L), RALT_T(KC_SCLN), KC_ENT,
                                   /* KC_LSFT, KC_Z,    KC_X,    KC_C,    LT(_NUM, KC_V),    KC_B,    KC_N,    LT(_FUNC, KC_M), KC_COMM, KC_DOT,  KC_SLSH, KC_QUOT, */
                                   /* KC_LSFT, KC_Z,    KC_X,    KC_C,    LT(_NUM, KC_V),    KC_B,    KC_N,    LT(_FUNC, KC_M), KC_COMM, KC_DOT,  KC_SLSH, KC_QUOT, */
-                                  KC_LSFT, KC_Z, KC_X, KC_C, LT(_NUM, KC_V), KC_B, KC_N, LT(_FUNC, KC_M), LT(_FUNC, KC_COMM), KC_DOT, RCTL_T(KC_SLSH), RSFT_T(KC_QUOT),
+                                  /* KC_LSFT, KC_Z, KC_X, KC_C, LT(_NUM, KC_V), KC_B, KC_N, LT(_FUNC, KC_M), LT(_FUNC, KC_COMM), KC_DOT, RCTL_T(KC_SLSH), RSFT_T(KC_QUOT), */
+                                  KC_LSFT, KC_Z, KC_X, KC_C, LT(_NUM, KC_V),LT(_FUNC,KC_B), KC_N, LT(_FUNC, KC_M), LT(_FUNC, KC_COMM), KC_DOT, RCTL_T(KC_SLSH), RSFT_T(KC_QUOT),
                                   /* _______, KC_LALT, KC_LGUI, LOWER,   CTL_T(KC_SPC), SPACE_FN2, SPACE_FN, RAISE,   KC_RALT, LALT_T(KC_RCTRL),   _______ */
                                   /* _______, KC_LALT, KC_LCTRL, LOWER,   CTL_T(KC_SPC), SPACE_FN2, SPACE_FN, RAISE,   KC_LCTRL, KC_LALT,   _______ */
                                   _______, KC_LALT, RAISE_WOW, LOWER, CTL_T(KC_SPC), SPACE_FN2,/*center*/ SPACE_FN, RAISE, KC_RCTL, KC_RALT, _______),
