@@ -71,12 +71,12 @@ enum planck_keycodes {
 #define HNGL_TERM 180
 /* #define HNGL LT(0, KC_SCLN)  // 예시용 */
 // 홀딩이 아닌 ctrl+space 발사 형식이라enum으로 줘야한다고 합니다
-/* enum custom_keycodes { */
-/*     HNGL = SAFE_RANGE, */
-/* }; */
+
 static bool     hngl_is_down = false;
 static bool     hngl_sent_toggle = false;
 static uint16_t hngl_timer = 0;
+
+static bool hngl_shifted = false;  // <- 추가: 쉬프트 스냅샷
 
 #define LOWER_WOW MO(_LOWER_WOW)
 #define RAISE_WOW MO(_RAISE_WOW)
@@ -909,21 +909,57 @@ void matrix_scan_user(void) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+    /* // HNGL 누른 상태에서 다른 키가 눌리면 토글(단, Shift는 예외) */
+    /* if (hngl_is_down && !hngl_sent_toggle) { */
+    /*     if (record->event.pressed && keycode != HNGL) { */
+
+    /*         // Shift는 ':' 용이니 예외 */
+    /*         if (keycode == KC_LSFT || keycode == KC_RSFT) { */
+    /*             return true; */
+    /*         } */
+
+    /*         tap_code16(LCTL(KC_SPC));   // <- 여기서 바로 발사 */
+    /*         hngl_sent_toggle = true;    // <- 한 번만 */
+    /*     } */
+    /* } */
+
     switch (keycode) {
         case HNGL:
             if (record->event.pressed) {
                 hngl_is_down = true;
                 hngl_sent_toggle = false;
                 hngl_timer = timer_read();
+
+                // ✅ HNGL 누르는 "순간"의 쉬프트 상태 스냅샷
+                uint8_t mods = get_mods() | get_oneshot_mods();
+                hngl_shifted = (mods & MOD_MASK_SHIFT);
             } else {
                 hngl_is_down = false;
 
                 if (!hngl_sent_toggle) {
-                    tap_code(KC_SCLN); // 탭이면 ;
+                    // ✅ 뗄 때 현재 쉬프트가 내려가 있어도,
+                    //    누를 때 쉬프트였으면 ':'를 보장
+                    if (hngl_shifted) tap_code16(S(KC_SCLN));
+                    else tap_code(KC_SCLN);
                 }
             }
-            return false; // 기본 처리 막기
-            break;
+            return false;
+
+        /* case HNGL: */
+        /*     if (record->event.pressed) { */
+        /*         hngl_is_down = true; */
+        /*         hngl_sent_toggle = false; */
+        /*         hngl_timer = timer_read(); */
+        /*     } else { */
+        /*         hngl_is_down = false; */
+
+        /*         if (!hngl_sent_toggle) { */
+        /*             tap_code(KC_SCLN); // 탭이면 ; */
+        /*         } */
+        /*     } */
+        /*     return false; // 기본 처리 막기 */
+        /*     break; */
 
         /* case HNGL: */
         /*     if (record->event.pressed) { */
