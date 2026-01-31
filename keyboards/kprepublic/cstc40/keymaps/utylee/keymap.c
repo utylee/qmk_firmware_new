@@ -40,6 +40,7 @@ enum planck_keycodes {
     QWERTY = SAFE_RANGE,
     MAC,
     WOW,
+    HNGL,       // 맥에서의 한글변환 관련
     /* ABLETON, */
     /*
     ARROW
@@ -65,6 +66,17 @@ enum planck_keycodes {
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
 //#define NUM MO(_NUM)
+
+// 맥에서 한글 변환 반응이 느려 직접 ctrl + space 를 쏴주는 방식으로 변경하였습니다
+#define HNGL_TERM 180
+/* #define HNGL LT(0, KC_SCLN)  // 예시용 */
+// 홀딩이 아닌 ctrl+space 발사 형식이라enum으로 줘야한다고 합니다
+/* enum custom_keycodes { */
+/*     HNGL = SAFE_RANGE, */
+/* }; */
+static bool     hngl_is_down = false;
+static bool     hngl_sent_toggle = false;
+static uint16_t hngl_timer = 0;
 
 #define LOWER_WOW MO(_LOWER_WOW)
 #define RAISE_WOW MO(_RAISE_WOW)
@@ -141,7 +153,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * | _______| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |_______ |
      * `-----------------------------------------------------------------------------------'
      */
-    [_MAC] = LAYOUT_planck_mit(_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    [_MAC] = LAYOUT_planck_mit(_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
+            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, HNGL, _______,
                                /*{KC_LCTL,  KC_A,    KC_S,    KC_D,    LT(_S, KC_F),    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},*/
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
    	_______, _______, _______, _______, _______, SPACE_FN2_MAC, _______, _______, KC_F18, KC_RGUI, _______),
@@ -509,11 +522,13 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             /* return 190; */
             return g_tapping_term;
             break;
-        case RALT_T(KC_SCLN):
-            /* return 210; */
-            /* return 190; */
-            return g_tapping_term;
-            break;
+        /* case RALT_T(KC_SCLN): */
+        /*     /1* return 210; *1/ */
+        /*     /1* return 190; *1/ */
+        /*     return g_tapping_term; */
+        /*     break; */
+
+
 
         // V Number mod
         case LT(_NUM, KC_V):
@@ -883,8 +898,43 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
+void matrix_scan_user(void) {
+    if (hngl_is_down && !hngl_sent_toggle) {
+        if (timer_elapsed(hngl_timer) > HNGL_TERM) { // 또는 키별 term
+            tap_code16(LCTL(KC_SPC)); // Ctrl+Space = 입력 소스 전환
+            hngl_sent_toggle = true;
+        }
+    }
+}
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case HNGL:
+            if (record->event.pressed) {
+                hngl_is_down = true;
+                hngl_sent_toggle = false;
+                hngl_timer = timer_read();
+            } else {
+                hngl_is_down = false;
+
+                if (!hngl_sent_toggle) {
+                    tap_code(KC_SCLN); // 탭이면 ;
+                }
+            }
+            return false; // 기본 처리 막기
+            break;
+
+        /* case HNGL: */
+        /*     if (record->event.pressed) { */
+        /*         if (record->tap.count == 0) { */
+        /*             register_code(KC_LCTL); */
+        /*             tap_code(KC_SPC); */
+        /*             unregister_code(KC_LCTL); */
+        /*         } */
+        /*     } */
+        /*     return false; */
+
         case QWERTY:
             /* dprint("come into qwerty\n"); */
             if (record->event.pressed) {
