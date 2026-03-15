@@ -293,7 +293,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------'
      */
     [_SPACE_FN2] = LAYOUT_planck_mit(KC_PSCR, KC_F1, KC_F2, KC_F3, KC_F4, WOW, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END, _______, 
-		KC_ENTER, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, QWERTY, MAC, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, 
+		KC_ENTER, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_TAB, MAC, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, 
 		XXXXXXX, WOW, WOW, _______, QWERTY, MAC, KC_INS, KC_DEL, KC_DEL, KC_INS, KC_INS, XXXXXXX, 
 		KC_CAPS, KC_CAPS, _______, _______, _______, XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU, XXXXXXX),
 
@@ -349,7 +349,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |      |      layer d |      |      |      |             |      | Next | Vol- | Vol+ | Play |
      * `-----------------------------------------------------------------------------------'
      */
-    [_LOWER] = LAYOUT_planck_mit(KC_TILD, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, KC_DEL, KC_F1, KC_F2, KC_F3, KC_INSERT, _______, KC_UNDS, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, _______, KC_F7, KC_F8, KC_BRK, KC_DEL, _______, _______, S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______),
+    [_LOWER] = LAYOUT_planck_mit(KC_TILD, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+		   KC_DEL, KC_F1, KC_F2, KC_TAB, KC_TAB, _______, KC_UNDS, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, _______, KC_F7, KC_F8, KC_BRK, KC_DEL, _______, _______, S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______),
 
     /* Raise
      * ,-----------------------------------------------------------------------------------.
@@ -362,7 +363,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
      * `-----------------------------------------------------------------------------------'
      */
-    [_RAISE] = LAYOUT_planck_mit(KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_BSPC, KC_DEL, _______, _______, _______, _______, _______, KC_MINUS, KC_MINUS, KC_EQL, KC_LBRC, KC_RBRC, KC_ENT, _______, _______, _______, _______, _______, _______, KC_TAB, KC_1, KC_2, KC_3, KC_BSLS, KC_BSLS, _______, _______, _______, _______, _______, _______, KC_DOT, _______, _______, _______, _______),
+    [_RAISE] = LAYOUT_planck_mit(KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_TAB, KC_DEL, _______, _______, _______, _______, _______, KC_MINUS, KC_MINUS, KC_EQL, KC_LBRC, KC_RBRC, KC_ENT, _______, _______, _______, _______, _______, _______, KC_TAB, KC_1, KC_2, KC_3, KC_BSLS, KC_BSLS, _______, _______, _______, _______, _______, _______, KC_DOT, _______, _______, _______, _______),
     //숫자키를 한칸씩 오른쪽으로 옮기고, eql키도 위치를 변경합니다
     /* [_RAISE] = LAYOUT_planck_mit( */
     /*     KC_GRV,  _______,   _______,   _______,   _______, _______,  KC_ASTR,  KC_7, KC_8,  KC_9, KC_0, KC_0, */
